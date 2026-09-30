@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>حكاية الزمالة | الزمالة السعودية للمشاركة المجتمعية</title>
+<meta name="description" content="حكاية الزمالة السعودية للمشاركة المجتمعية — النسخة الثانية. ابدأ زمالتك مع شركة الزمالات المهنية.">
+<meta name="theme-color" content="#07090F">
+<style>
+@font-face{font-family:T;font-weight:900;src:url(fonts/tajawal-arabic-900-normal.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
+@font-face{font-family:T;font-weight:900;src:url(fonts/tajawal-latin-900-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:T;font-weight:700;src:url(fonts/tajawal-arabic-700-normal.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
+@font-face{font-family:T;font-weight:700;src:url(fonts/tajawal-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:T;font-weight:500;src:url(fonts/tajawal-arabic-500-normal.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF,U+200C-200E}
+@font-face{font-family:P;font-weight:600;src:url(fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:P;font-weight:600;src:url(fonts/ibm-plex-sans-arabic-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
+[hidden]{display:none!important}
+:root{color-scheme:dark;--bg:#05070C;--panel:#10141F;--line:#232A3B;--text:#F4EFE4;--muted:#8F97AA;--gold:#F2B233;--s:.4}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(60% 45% at 50% 38%,rgba(242,178,51,.08),transparent 70%),var(--bg);color:var(--text);font-family:P,Tahoma,sans-serif;overflow:hidden}
+.stage{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:max(12px,env(safe-area-inset-top)) 16px max(12px,env(safe-area-inset-bottom))}
+.frame{position:relative;flex:1 1 auto;min-height:0;aspect-ratio:9/16;max-width:100%;border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px var(--line);background:#07090F}
+canvas{display:block;width:100%;height:100%}
+.play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:12px;padding-bottom:16%;border:0;background:linear-gradient(transparent 50%,rgba(5,7,12,.7));color:var(--text);cursor:pointer;font:inherit}
+.disc{width:84px;height:84px;border-radius:50%;background:var(--gold);display:grid;place-items:center;box-shadow:0 0 0 10px rgba(242,178,51,.18);transition:transform .25s}
+.play:hover .disc,.play:focus-visible .disc{transform:scale(1.08)}
+.play:focus-visible{outline:none}
+.disc svg{width:30px;height:30px;margin-left:6px;fill:#07090F}
+.play span{font-family:T,P,sans-serif;font-weight:700;font-size:16px}
+/* clickable call to action (two lines) + tapping hand */
+.cta{position:absolute;left:50%;top:89.17%;transform:translate(-50%,-50%) scale(.6);opacity:0;pointer-events:none;
+ display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(6px * var(--s));text-decoration:none;
+ width:calc(var(--cw, 560px) * var(--s));height:calc(128px * var(--s));border:calc(3px * var(--s)) solid var(--gold);border-radius:999px;background:rgba(242,178,51,.16);
+ transition:opacity .5s ease,transform .6s cubic-bezier(.34,1.56,.64,1),background .25s,box-shadow .25s;cursor:pointer}
+.cta.on{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}
+.cta b{font-family:T,sans-serif;font-weight:900;font-size:calc(48px * var(--s));line-height:1;color:var(--gold);transition:color .25s}
+.cta small{font-family:T,sans-serif;font-weight:700;font-size:calc(32px * var(--s));line-height:1;color:var(--text)}
+.cta.on:hover{transform:translate(-50%,calc(-50% - 6px * var(--s) - 2px)) scale(1.04);background:rgba(242,178,51,.3);box-shadow:0 0 calc(56px * var(--s)) rgba(242,178,51,.5)}
+.cta.on:hover b{color:#FFD37E}
+.cta.on:active{transform:translate(-50%,-50%) scale(.98)}
+.cta:focus-visible{outline:3px solid #FFD37E;outline-offset:4px}
+.cta .sh{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none}
+.cta .sh::after{content:"";position:absolute;top:0;bottom:0;width:30%;left:-40%;background:linear-gradient(90deg,transparent,rgba(255,236,190,.38),transparent);animation:shine 3.2s ease-in-out infinite}
+@keyframes shine{0%,62%{left:-40%}100%{left:110%}}
+.hand{position:absolute;left:calc(-90px * var(--s));top:calc(60px * var(--s));width:calc(96px * var(--s));height:calc(96px * var(--s));pointer-events:none;animation:tap 2.4s ease-in-out infinite}
+.hand svg{width:100%;height:100%;fill:var(--text);filter:drop-shadow(0 2px 4px rgba(0,0,0,.45))}
+.hand::after{content:"";position:absolute;left:44%;top:12%;width:calc(20px * var(--s));height:calc(20px * var(--s));margin:calc(-10px * var(--s));border:calc(4px * var(--s)) solid #E0B868;border-radius:50%;opacity:0;animation:pulse 2.4s ease-out infinite}
+@keyframes tap{0%{transform:translate(calc(34px * var(--s)),calc(30px * var(--s)))}35%{transform:translate(0,0) scale(1)}42%{transform:translate(0,0) scale(.9)}50%{transform:translate(0,0) scale(1)}80%{transform:translate(0,0)}100%{transform:translate(calc(34px * var(--s)),calc(30px * var(--s)))}}
+@keyframes pulse{0%,40%{opacity:0;transform:scale(1)}45%{opacity:.9}90%,100%{opacity:0;transform:scale(5.5)}}
+.bar{width:min(100%,calc((100vh - 110px) * 9 / 16));display:flex;align-items:center;gap:10px;direction:ltr}
+.bar button{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);display:grid;place-items:center;cursor:pointer}
+.bar button:hover{border-color:var(--gold)}
+.bar button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.bar svg{width:15px;height:15px;fill:currentColor}
+input[type=range]{flex:1;min-width:0;accent-color:var(--gold);cursor:pointer}
+.time{font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted);flex:none}
+@media (prefers-reduced-motion: reduce){.cta,</style>
+</head>
+<body>
+<div class="stage">
+  <div class="frame" id="frame">
+    <canvas id="c" width="1080" height="1920" aria-label="حكاية الزمالة السعودية للمشاركة المجتمعية"></canvas>
+    <a class="cta" id="cta" href="https://forms.gle/C2QD3Gp8VG8fgNnAA" target="_blank" rel="noopener" aria-label="ابدأ زمالتك الآن، سجّل هنا">
+      <span class="sh" aria-hidden="true"></span>
+      <b>ابدأ زمالتك الآن</b><small>سجّل هنا</small>
+      <span class="hand" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg></span>
+    </a>
+    
+    <button class="play" id="big" aria-label="تشغيل">
+      <div class="disc"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div>
+      <span>شغّل الحكاية مع النشيد</span>
+    </button>
+  </div>
+  <div class="bar">
+    <button id="pp" aria-label="تشغيل أو إيقاف"><svg id="ic" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></button>
+    <button id="rs" aria-label="من البداية"><svg viewBox="0 0 24 24"><path d="M12 5V2L7 6l5 4V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"/></svg></button>
+    <input id="sk" type="range" min="0" max="132" step="0.01" value="0" aria-label="الموضع">
+    <span class="time" id="tm">0:00 / 2:12</span>
+    <button id="fs" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24"><path d="M4 9V4h5v2H6v3zm11-5h5v5h-2V6h-3zM4 15h2v3h3v2H4zm14 3v-3h2v5h-5v-2z"/></svg></button>
+  </div>
+</div>
+<audio id="au" src="audio/nasheed.mp3" preload="auto"></audio>
+<script>
+  window.WEB = true;
+  // ⬇ رابط زر «ابدأ زمالتك الآن – سجّل هنا»: غيّر هذا السطر فقط عند تحديث الرابط
+  window.CTA_URL = "https://forms.gle/C2QD3Gp8VG8fgNnAA";
+</script>
+<script src="js/timing.js"></script>
+<script src="js/assets.js"></script>
+<script src="js/countries.js"></script>
+<script src="js/d3-array.min.js"></script>
+<script src="js/d3-geo.min.js"></script>
+<script src="js/reel.js"></script>
+<script>window.ready.then(() => { window.CTA_W = Math.round(ctaGeom().w); });</script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const au = $('au'), big = $('big'), ic = $('ic'), sk = $('sk'), tm = $('tm'), frame = $('frame'), cta = $('cta'), site = null;
+  const END = 132.0, HOLD = END - .8, CTA_T = T.fin + 3.6, SITE_T = T.fin + 3.9;   // final page stays on screen, never fades to black
+  const PLAY = '<path d="M6 4l14 8-14 8z"/>', PAUSE = '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
+  let t = 0, playing = false, started = false, last = performance.now(), scrub = false;
+  const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  function size() {
+    const w = frame.getBoundingClientRect().width; frame.style.setProperty('--s', (w / 1080).toFixed(4)); frame.style.setProperty('--cw', window.CTA_W ? window.CTA_W + 'px' : '560px');
+    const q = Math.min(1, Math.max(.45, w * (window.devicePixelRatio || 1) / 1080)); window.setQ(Math.round(q * 20) / 20); window.GQ = Math.min(q, .7);
+  }
+  function play() { if (t >= HOLD - .05) t = 0; started = true; playing = true; big.hidden = true; ic.innerHTML = PAUSE; try { au.currentTime = t; } catch (e) {} au.play().catch(() => {}); }
+  function stop() { playing = false; au.pause(); ic.innerHTML = PLAY; }
+  function loop(now) {
+    const dt = Math.min(.1, (now - last) / 1000); last = now;
+    if (playing) { if (!au.paused && au.readyState >= 2) t = au.currentTime; else t += dt; if (t >= END || au.ended) { t = END; stop(); } }
+    const rt = started ? Math.min(t, HOLD) : 2.6;
+    window.render(rt);
+    const onCta = started && rt >= CTA_T; cta.classList.toggle('on', onCta); 
+    cta.tabIndex = onCta ? 0 : -1; 
+    if (!scrub) sk.value = t; tm.textContent = `${fmt(t)} / 2:12`;
+    requestAnimationFrame(loop);
+  }
+  big.onclick = play;
+  $('pp').onclick = () => playing ? stop() : play();
+  $('rs').onclick = () => { t = 0; try { au.currentTime = 0; } catch (e) {} if (!playing) play(); };
+  sk.oninput = () => { scrub = true; started = true; big.hidden = true; t = +sk.value; try { au.currentTime = t; } catch (e) {} };
+  sk.onchange = () => { scrub = false; };
+  $('fs').onclick = () => { (frame.requestFullscreen ? frame.requestFullscreen() : Promise.reject()).catch(() => {}); };
+  document.addEventListener('keydown', e => { if (e.code === 'Space' && !['BUTTON', 'A', 'INPUT'].includes(e.target.tagName)) { e.preventDefault(); playing ? stop() : play(); } });
+  window.addEventListener('resize', size);
+  cta.href = window.CTA_URL;
+  window.ready.then(() => { size(); requestAnimationFrame(loop); });
+})();
+</script>
+</body>
+</html>
