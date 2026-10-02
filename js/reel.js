@@ -742,6 +742,27 @@ function handTap(x, y, t, t0, s = 4) {
 }
 const CTA_Y = 1712;
 function ctaGeom() { X.save(); X.font = font(48, 900); X.direction = 'rtl'; const w1 = X.measureText('ابدأ زمالتك الآن').width; X.restore(); const w = w1 + 140; return { w, h: 128, x: CX - w / 2, y: CTA_Y - 64 }; }
+// closing credits — tiny footer, fades in once everything has settled
+const CREDITS = [['إنشاد', 'مجدي عبدالغني'], ['كلمات', 'أم حمد المري'], ['إعداد', 'نجد المري & سليمان البيشي']];
+function credits(t, t0) {
+  if (window.WEB) return;   // the web page renders these as real links
+  const a = E.io3(pr(t, t0, t0 + 1.6)); if (a <= 0) return;
+  const Y = 1862, maxW = 1000, gap = 46;
+  let size = 25; const LW = s => font(s, 500), NW = s => font(s, 700);
+  const measure = s => { X.font = LW(s); const sep = X.measureText('  |  ').width; return CREDITS.map(([l, n]) => { X.font = LW(s); const lw = X.measureText(l).width; X.font = NW(s); const nw = X.measureText(n).width; return { lw, nw, sep, w: lw + sep + nw }; }); };
+  X.save(); X.direction = 'rtl'; X.textBaseline = 'middle'; X.textAlign = 'right';
+  let m = measure(size), tot = m.reduce((q, v) => q + v.w, 0) + gap * 2;
+  if (tot > maxW) { size *= maxW / tot; m = measure(size); tot = m.reduce((q, v) => q + v.w, 0) + gap * 2; }
+  let x = CX + tot / 2;
+  CREDITS.forEach(([l, n], i) => {
+    const g = m[i];
+    X.font = LW(size); X.fillStyle = `rgba(244,239,228,${.5 * a})`; X.fillText(l, x, Y);
+    X.fillStyle = `rgba(242,178,51,${.55 * a})`; X.fillText('  |  ', x - g.lw, Y);
+    X.font = NW(size); X.fillStyle = `rgba(244,239,228,${.82 * a})`; X.fillText(n, x - g.lw - g.sep, Y);
+    x -= g.w + gap;
+  });
+  X.restore();
+}
 function sFin(t) {
   bg(COL.navy);
   const lt = t - T.fin, k = kick(t);
@@ -781,6 +802,7 @@ function sFin(t) {
       handTap(g.x - 40, CTA_Y + 44, t, T.fin + 4.2);
     }
   }
+  credits(t, T.fin + 5.2);
 }
 
 // ---------- NEW: finale with the approved logo ----------

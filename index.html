@@ -48,6 +48,18 @@ canvas{display:block;width:100%;height:100%}
 .hand::after{content:"";position:absolute;left:44%;top:12%;width:calc(20px * var(--s));height:calc(20px * var(--s));margin:calc(-10px * var(--s));border:calc(4px * var(--s)) solid #E0B868;border-radius:50%;opacity:0;animation:pulse 2.4s ease-out infinite}
 @keyframes tap{0%{transform:translate(calc(34px * var(--s)),calc(30px * var(--s)))}35%{transform:translate(0,0) scale(1)}42%{transform:translate(0,0) scale(.9)}50%{transform:translate(0,0) scale(1)}80%{transform:translate(0,0)}100%{transform:translate(calc(34px * var(--s)),calc(30px * var(--s)))}}
 @keyframes pulse{0%,40%{opacity:0;transform:scale(1)}45%{opacity:.9}90%,100%{opacity:0;transform:scale(5.5)}}
+/* credits footer — real links on the names only */
+.credits{position:absolute;left:50%;top:96.98%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:calc(46px * var(--s));white-space:nowrap;direction:rtl;
+ font-family:T,sans-serif;font-size:calc(var(--cf, 25px) * var(--s));line-height:1;opacity:0;pointer-events:none;transition:opacity 1.6s ease}
+.credits.on{opacity:1}
+.credits .g{display:inline-flex;align-items:center}
+.credits .l{font-weight:500;color:rgba(244,239,228,.5)}
+.credits .sep{color:rgba(242,178,51,.55);white-space:pre}
+.credits .n{font-weight:700;color:rgba(244,239,228,.82)}
+.credits a.n{text-decoration:none;cursor:pointer;transition:color .25s ease,text-shadow .25s ease}
+.credits.on a.n{pointer-events:auto}
+.credits a.n:hover{color:#F6DA9B;text-shadow:0 0 calc(10px * var(--s)) rgba(242,178,51,.35)}
+.credits a.n:focus-visible{outline:1px solid rgba(242,178,51,.7);outline-offset:3px;border-radius:2px}
 .bar{width:min(100%,calc((100vh - 110px) * 9 / 16));display:flex;align-items:center;gap:10px;direction:ltr}
 .bar button{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);display:grid;place-items:center;cursor:pointer}
 .bar button:hover{border-color:var(--gold)}
@@ -67,6 +79,11 @@ input[type=range]{flex:1;min-width:0;accent-color:var(--gold);cursor:pointer}
       <span class="hand" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg></span>
     </a>
     
+    <div class="credits" id="credits">
+      <span class="g"><span class="l">إنشاد</span><span class="sep">  |  </span><a class="n" href="https://x.com/mggdi83" target="_blank" rel="noopener noreferrer">مجدي عبدالغني</a></span>
+      <span class="g"><span class="l">كلمات</span><span class="sep">  |  </span><span class="n">أم حمد المري</span></span>
+      <span class="g"><span class="l">إعداد</span><span class="sep">  |  </span><a class="n" href="https://x.com/Najd3Almarri" target="_blank" rel="noopener noreferrer">نجد المري</a><span class="n">&nbsp;&amp;&nbsp;</span><a class="n" href="https://x.com/sulimanAlbishi" target="_blank" rel="noopener noreferrer">سليمان البيشي</a></span>
+    </div>
     <button class="play" id="big" aria-label="تشغيل">
       <div class="disc"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div>
       <span>شغّل الحكاية مع النشيد</span>
@@ -98,11 +115,13 @@ input[type=range]{flex:1;min-width:0;accent-color:var(--gold);cursor:pointer}
   const $ = id => document.getElementById(id);
   const au = $('au'), big = $('big'), ic = $('ic'), sk = $('sk'), tm = $('tm'), frame = $('frame'), cta = $('cta'), site = null;
   const END = 132.0, HOLD = END - .8, CTA_T = T.fin + 3.6, SITE_T = T.fin + 3.9;   // final page stays on screen, never fades to black
+  const credits = document.getElementById('credits');
   const PLAY = '<path d="M6 4l14 8-14 8z"/>', PAUSE = '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
   let t = 0, playing = false, started = false, last = performance.now(), scrub = false;
   const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
   function size() {
-    const w = frame.getBoundingClientRect().width; frame.style.setProperty('--s', (w / 1080).toFixed(4)); frame.style.setProperty('--cw', window.CTA_W ? window.CTA_W + 'px' : '560px');
+    const w = frame.getBoundingClientRect().width; frame.style.setProperty('--s', (w / 1080).toFixed(4)); frame.style.setProperty('--cf', '25px'); const cr = document.getElementById('credits'); const cw = cr.scrollWidth, lim = 1000 * w / 1080; if (cw > lim) frame.style.setProperty('--cf', (25 * lim / cw).toFixed(2) + 'px');
+    frame.style.setProperty('--cw', window.CTA_W ? window.CTA_W + 'px' : '560px');
     const q = Math.min(1, Math.max(.45, w * (window.devicePixelRatio || 1) / 1080)); window.setQ(Math.round(q * 20) / 20); window.GQ = Math.min(q, .7);
   }
   function play() { if (t >= HOLD - .05) t = 0; started = true; playing = true; big.hidden = true; ic.innerHTML = PAUSE; try { au.currentTime = t; } catch (e) {} au.play().catch(() => {}); }
@@ -112,6 +131,7 @@ input[type=range]{flex:1;min-width:0;accent-color:var(--gold);cursor:pointer}
     if (playing) { if (!au.paused && au.readyState >= 2) t = au.currentTime; else t += dt; if (t >= END || au.ended) { t = END; stop(); } }
     const rt = started ? Math.min(t, HOLD) : 2.6;
     window.render(rt);
+    const onCr = started && rt >= T.fin + 5.2; credits.classList.toggle('on', onCr); credits.querySelectorAll('a').forEach(l => l.tabIndex = onCr ? 0 : -1);
     const onCta = started && rt >= CTA_T; cta.classList.toggle('on', onCta); 
     cta.tabIndex = onCta ? 0 : -1; 
     if (!scrub) sk.value = t; tm.textContent = `${fmt(t)} / 2:12`;
