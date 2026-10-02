@@ -743,7 +743,7 @@ function handTap(x, y, t, t0, s = 4) {
 const CTA_Y = 1712;
 function ctaGeom() { X.save(); X.font = font(48, 900); X.direction = 'rtl'; const w1 = X.measureText('ابدأ زمالتك الآن').width; X.restore(); const w = w1 + 140; return { w, h: 128, x: CX - w / 2, y: CTA_Y - 64 }; }
 // closing credits — tiny footer, fades in once everything has settled
-const CREDITS = [['إنشاد', 'مجدي عبدالغني'], ['كلمات', 'أم حمد المري'], ['إعداد', 'نجد المري & سليمان البيشي']];
+const CREDITS = [['إنشاد', 'مجدي عبدالغني'], ['كلمات', 'أم حمد المري'], ['إعداد', 'نجد المري - سليمان البيشي']];
 function credits(t, t0) {
   if (window.WEB) return;   // the web page renders these as real links
   const a = E.io3(pr(t, t0, t0 + 1.6)); if (a <= 0) return;

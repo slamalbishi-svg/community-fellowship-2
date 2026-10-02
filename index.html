@@ -59,6 +59,16 @@ canvas{display:block;width:100%;height:100%}
 .credits a.n{text-decoration:none;cursor:pointer;transition:color .25s ease,text-shadow .25s ease}
 .credits.on a.n{pointer-events:auto}
 .credits a.n:hover{color:#F6DA9B;text-shadow:0 0 calc(10px * var(--s)) rgba(242,178,51,.35)}
+.credits a.n{display:inline-block;position:relative}
+.credits a.n:hover{transform:translateY(calc(-1px * var(--s) - .5px));filter:brightness(1.15)}
+.credits a.n::after{content:"";position:absolute;top:calc(-12px * var(--s));left:calc(-15px * var(--s));width:calc(15px * var(--s));height:calc(15px * var(--s));opacity:0;pointer-events:none;
+ background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M5 11L11 5M6 5h5v5' fill='none' stroke='%23F2B233' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+/* one-time hint after the footer settles: each linked name glows in turn, with a small ↗ */
+.credits.hint a.n{animation:nameGlow 1.5s ease-in-out both;animation-delay:var(--d,0s)}
+.credits.hint a.n::after{animation:arrowHint 1.7s ease-in-out both;animation-delay:var(--d,0s)}
+@keyframes nameGlow{0%,100%{color:rgba(244,239,228,.82);text-shadow:none}40%,60%{color:#F6DA9B;text-shadow:0 0 calc(12px * var(--s)) rgba(242,178,51,.45)}}
+@keyframes arrowHint{0%{opacity:0;transform:translate(calc(4px * var(--s)),calc(4px * var(--s)))}30%,70%{opacity:.9;transform:none}100%{opacity:0;transform:translate(calc(-3px * var(--s)),calc(-3px * var(--s)))}}
+@media (prefers-reduced-motion: reduce){.credits.hint a.n,.credits.hint a.n::after{animation:none}}
 .credits a.n:focus-visible{outline:1px solid rgba(242,178,51,.7);outline-offset:3px;border-radius:2px}
 .bar{width:min(100%,calc((100vh - 110px) * 9 / 16));display:flex;align-items:center;gap:10px;direction:ltr}
 .bar button{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);display:grid;place-items:center;cursor:pointer}
@@ -80,9 +90,9 @@ input[type=range]{flex:1;min-width:0;accent-color:var(--gold);cursor:pointer}
     </a>
     
     <div class="credits" id="credits">
-      <span class="g"><span class="l">إنشاد</span><span class="sep">  |  </span><a class="n" href="https://x.com/mggdi83" target="_blank" rel="noopener noreferrer">مجدي عبدالغني</a></span>
+      <span class="g"><span class="l">إنشاد</span><span class="sep">  |  </span><a class="n" style="--d:0s" href="https://x.com/mggdi83" target="_blank" rel="noopener noreferrer">مجدي عبدالغني</a></span>
       <span class="g"><span class="l">كلمات</span><span class="sep">  |  </span><span class="n">أم حمد المري</span></span>
-      <span class="g"><span class="l">إعداد</span><span class="sep">  |  </span><a class="n" href="https://x.com/Najd3Almarri" target="_blank" rel="noopener noreferrer">نجد المري</a><span class="n">&nbsp;&amp;&nbsp;</span><a class="n" href="https://x.com/sulimanAlbishi" target="_blank" rel="noopener noreferrer">سليمان البيشي</a></span>
+      <span class="g"><span class="l">إعداد</span><span class="sep">  |  </span><a class="n" style="--d:.6s" href="https://x.com/Najd3Almarri" target="_blank" rel="noopener noreferrer">نجد المري</a><span class="n">&nbsp;-&nbsp;</span><a class="n" style="--d:1.2s" href="https://x.com/sulimanAlbishi" target="_blank" rel="noopener noreferrer">سليمان البيشي</a></span>
     </div>
     <button class="play" id="big" aria-label="تشغيل">
       <div class="disc"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div>
@@ -131,7 +141,7 @@ input[type=range]{flex:1;min-width:0;accent-color:var(--gold);cursor:pointer}
     if (playing) { if (!au.paused && au.readyState >= 2) t = au.currentTime; else t += dt; if (t >= END || au.ended) { t = END; stop(); } }
     const rt = started ? Math.min(t, HOLD) : 2.6;
     window.render(rt);
-    const onCr = started && rt >= T.fin + 5.2; credits.classList.toggle('on', onCr); credits.querySelectorAll('a').forEach(l => l.tabIndex = onCr ? 0 : -1);
+    const onCr = started && rt >= T.fin + 5.2; credits.classList.toggle('on', onCr); const hint = started && rt >= T.fin + 6.9; if (hint !== credits.classList.contains('hint')) credits.classList.toggle('hint', hint); credits.querySelectorAll('a').forEach(l => l.tabIndex = onCr ? 0 : -1);
     const onCta = started && rt >= CTA_T; cta.classList.toggle('on', onCta); 
     cta.tabIndex = onCta ? 0 : -1; 
     if (!scrub) sk.value = t; tm.textContent = `${fmt(t)} / 2:12`;
